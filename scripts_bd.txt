@@ -1,0 +1,76 @@
+DROP TABLE IF EXISTS client CASCADE;
+CREATE TABLE client(
+   nickname         CHAR(15) PRIMARY KEY,
+   first_name       CHAR(20) NOT NULL,
+   second_name      CHAR(20) NOT NULL,
+   date_bird	    DATE NOT NULL,
+   type_id          CHAR(2),
+   no_id	    BIGINT NOT NULL,
+   password	    TEXT NOT NULL,
+   telephone  	    INT NOT NULL,
+   address	    CHAR(50) NOT NULL,
+   email 	    TEXT NOT NULL,	
+   no_credit_card   BIGINT
+   CHECK (type_id IN ('CC', 'TI','RC','TP'))
+);
+
+DROP TABLE IF EXISTS admin CASCADE;
+CREATE TABLE admin(
+   codigo	    CHAR(9) PRIMARY KEY,	
+   password	    TEXT NOT NULL,
+   descripcion	    TEXT NOT NULL
+);
+
+DROP TABLE IF EXISTS message CASCADE;
+CREATE TABLE message(
+   nickname         CHAR(15) REFERENCES client(nickname),
+   codigo	    CHAR(9) REFERENCES admin(codigo),	
+   descripcion	    TEXT NOT NULL
+);
+
+DROP TABLE IF EXISTS category CASCADE;
+CREATE TABLE category(
+   name_category	CHAR(15) PRIMARY KEY,
+   descripcion	    TEXT NOT NULL
+);
+
+DROP TABLE IF EXISTS subcategory CASCADE;
+CREATE TABLE subcategory(
+   name_subcategory	CHAR(15) PRIMARY KEY,
+   name_category	CHAR(15) REFERENCES category(name_category),
+   descripcion	    TEXT NOT NULL
+);
+
+DROP TABLE IF EXISTS book CASCADE;
+CREATE TABLE book(
+   ISBN         	CHAR(15) PRIMARY KEY,
+   name_subcategory	CHAR(9) REFERENCES subcategory(name_subcategory),	
+   year_of_publication	DATE NOT NULL,
+   synopsis 		TEXT NOT NULL,
+   title		TEXT NOT NULL,
+   author		CHAR(15) NOT NULL,	
+   no_pags 		INT NOT NULL,
+   price		BIGINT NOT NULL
+);
+
+DROP TABLE IF EXISTS critics CASCADE;
+CREATE TABLE critics(
+   nickname         CHAR(15) REFERENCES client(nickname),
+   ISBN		    CHAR(15) REFERENCES book(ISBN),
+   comment	    TEXT NOT NULL
+);
+
+DROP TABLE IF EXISTS bill CASCADE;
+CREATE TABLE bill(
+   id_bill          BIGINT PRIMARY KEY,
+   ISBN		    CHAR(15) REFERENCES book(ISBN),
+   date		    DATE NOT NULL
+);
+
+DROP TABLE IF EXISTS bill_book CASCADE;
+CREATE TABLE bill_book(
+   id_bill          BIGINT REFERENCES bill(id_bill),
+   ISBN		    CHAR(15) REFERENCES book(ISBN),
+   score	    INT NOT NULL,
+   cantidad	    INT NOT NULL
+);
