@@ -10,7 +10,14 @@ const Pool = require('pg-pool');
 /////CONFIGURACION DE LA PISCINA DE USUARIOS//////////
 //////////////////////////////////////////////////////
 var config = {
-    //base de datos pendiente por configurar
+  
+  user: 'postgres', //env var: PGUSER
+  database: 'Library', //env var: PGDATABASE
+  password: '1234', //env var: PGPASSWORD
+  host: 'localhost', // Server hosting the postgres database
+  port: 5432, //env var: PGPORT
+  max: 10, // max number of clients in the pool
+  idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
 };
 
 const pool = new Pool(config);
