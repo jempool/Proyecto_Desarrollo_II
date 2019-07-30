@@ -49,7 +49,25 @@ app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+//Actualiza los datos de un determinado usuario en la base de datos
+app.get("/consultarCategorias", function (req, res) {
 
+  let str = "SELECT * FROM category;"
+
+
+    connect(function(err, client, done) {
+      if(err) {
+          return console.error('error fetching client from pool', err);
+      }
+      //use the client for executing the query
+  
+      client.query(str,(err, result) =>{
+        //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
+        done(err);
+        res.json(result.rows);
+      });
+    });
+  });
 
 
 /////////////////////////////////////////////////////
