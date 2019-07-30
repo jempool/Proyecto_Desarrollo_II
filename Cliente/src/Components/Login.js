@@ -5,7 +5,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
+// import Link from "@material-ui/core/Link";
+import { Link } from 'react-router-dom'
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -54,6 +55,11 @@ const useStyles = makeStyles(theme => ({
 export default function SignInSide() {
   const classes = useStyles();
 
+  function handleClick(e) {
+    e.preventDefault();
+    console.log('The link was clicked.');
+  }
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -94,22 +100,18 @@ export default function SignInSide() {
               label="Remember me"
             />
             <Button
-              type="submit"
+              // type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={handleClick}
             >
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link to="/Sign_up/">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
