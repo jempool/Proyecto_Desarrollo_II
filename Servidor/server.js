@@ -50,7 +50,28 @@ app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bo
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
+/////////////////////////////////////////////////////
+///////////CONSULTAS DE LOS PRODUCTOS////////////////
+/////////////////////////////////////////////////////
+app.post("/insertProduct", function(req,res){
 
+  str='INSERT INTO book VALUES ('+req.body.isbn+',\''+ req.body.name_subcategory +'\',\''+ req.body.publication_year +'\',\''+ req.body.synopsis +'\',\''+ req.body.title +'\',\''+ req.body.author +'\','+ req.body.number_of_pages +','+ req.body.price +',\''+ req.body.editorial +'\',\''+ req.body.edition +'\',\''+ req.body.lang +'\',\''+ req.body.cover_type +'\',\''+ req.body.recommended_age+'\')';    
+  console.log(str)
+  connect(function(err, client, done) {
+  client.query(str,(err, result)=> {
+      //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
+      done(err);
+      if(err) {
+        res.json([{bool: false }]);
+        return console.error('error running query', err);
+      }
+      else{
+        res.json([{bool: true }]);
+        console.log("funciono?");
+      }
+  });
+});
+})
 
 /////////////////////////////////////////////////////
 ////////////CONFIGURACION DEL PUERTO ////////////////
