@@ -10,22 +10,23 @@ CREATE TABLE client(
    phone_number  	    INT NOT NULL,
    address	    CHAR(50) NOT NULL,
    email 	    TEXT NOT NULL,	
-   credit_card_number   BIGINT
+   credit_card_number   BIGINT,
+   state 	    BOOLEAN NOT NULL,	
    CHECK (type_id IN ('CC', 'TI','RC','TP'))
 );
 
 DROP TABLE IF EXISTS admin CASCADE;
 CREATE TABLE admin(
-   id	          CHAR(9) PRIMARY KEY,	
+   id	        CHAR(9) PRIMARY KEY,	
    password	    TEXT NOT NULL,
-   description	    TEXT NOT NULL
+   username	    TEXT NOT NULL
 );
 
 DROP TABLE IF EXISTS message CASCADE;
 CREATE TABLE message(
-   username         CHAR(15) REFERENCES client(nickname),
-   id	    CHAR(9) REFERENCES admin(codigo),	
-   description	    TEXT NOT NULL
+   username         CHAR(15) REFERENCES client(username),
+   description	    TEXT NOT NULL,	
+   solved	    boolean NOT NULL
 );
 
 DROP TABLE IF EXISTS category CASCADE;
@@ -50,27 +51,48 @@ CREATE TABLE book(
    title		TEXT NOT NULL,
    author		CHAR(15) NOT NULL,	
    number_of_pages 		INT NOT NULL,
-   price		BIGINT NOT NULL
+   price		BIGINT NOT NULL,   
+   editorial 		TEXT NOT NULL,
+   edition		TEXT NOT NULL,
+   lang		CHAR(20) NOT NULL,	
+   cover_type 		CHAR(1) NOT NULL,
+   recommended_age		BIGINT NOT NULL
+   CHECK (cover_type IN ('G', 'B'))
 );
 
 DROP TABLE IF EXISTS critics CASCADE;
 CREATE TABLE critics(
-   username         CHAR(15) REFERENCES client(nickname),
+   username         CHAR(15) REFERENCES client(username),
    ISBN		    CHAR(15) REFERENCES book(ISBN),
-   comment	    TEXT NOT NULL
+   comment	    TEXT NOT NULL,
+   score 		INT NOT NULL
 );
 
 DROP TABLE IF EXISTS bill CASCADE;
 CREATE TABLE bill(
    id_bill          BIGINT PRIMARY KEY,
-   ISBN		    CHAR(15) REFERENCES book(ISBN),
+   username		    CHAR(15) REFERENCES client(username),
    date		    DATE NOT NULL
 );
 
 DROP TABLE IF EXISTS bill_book CASCADE;
 CREATE TABLE bill_book(
-   id          BIGINT REFERENCES bill(id_bill),
+   id_bill      BIGINT REFERENCES bill(id_bill),
    ISBN		    CHAR(15) REFERENCES book(ISBN),
-   score	    INT NOT NULL,
-   Quantity	    INT NOT NULL
+   quantity	    INT NOT NULL
+);
+
+DROP TABLE IF EXISTS distribution_point CASCADE;
+CREATE TABLE distribution_point(
+   id_dp          SERIAL PRIMARY KEY,
+   name_dp		  TEXT NOT NULL,
+   address        TEXT NOT NULL,
+   telephone 	  INT NOT NULL
+);
+
+DROP TABLE IF EXISTS inventario CASCADE;
+CREATE TABLE inventario(
+   id_dp        BIGINT REFERENCES distribution_point(id_dp),
+   ISBN		    CHAR(15) REFERENCES book(ISBN),
+   availability	    INT NOT NULL
 );
