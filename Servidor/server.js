@@ -57,10 +57,12 @@ app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bo
 //Insertar productos en la base de datos
 app.post("/insertProduct", function(req,res){
 
-  str='INSERT INTO book VALUES ('+req.body.isbn+',\''+ req.body.name_subcategory +'\',\''+ req.body.publication_year +'\',\''+ req.body.synopsis +'\',\''+ req.body.title +'\',\''+ req.body.author +'\','+ req.body.number_of_pages +','+ req.body.price +',\''+ req.body.editorial +'\',\''+ req.body.edition +'\',\''+ req.body.lang +'\',\''+ req.body.cover_type +'\',\''+ req.body.recommended_age+'\')';    
-  console.log(str)
+  let str='INSERT INTO book VALUES ($1, $2 , $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13 );';    
+  let vars = [req.body.isbn,req.body.name_subcategory, req.body.publication_year, req.body.synopsis, req.body.title, req.body.author,req.body.number_of_pages, req.body.price, req.body.editorial, req.body.edition , req.body.lang , req.body.cover_type, req.body.recommended_age];  
+
+  console.log(str);
   connect(function(err, client, done) {
-  client.query(str,(err, result)=> {
+  client.query(str,vars,(err, result)=> {
       //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
       done(err);
       if(err) {
@@ -76,12 +78,37 @@ app.post("/insertProduct", function(req,res){
 })
 
 //Consultar productos de la base de datos
-app.get("/getProduct", function(req,res){
+app.post('/getProduct', function(req,res){
 
-  str='INSERT INTO book VALUES ('+req.body.isbn+',\''+ req.body.name_subcategory +'\',\''+ req.body.publication_year +'\',\''+ req.body.synopsis +'\',\''+ req.body.title +'\',\''+ req.body.author +'\','+ req.body.number_of_pages +','+ req.body.price +',\''+ req.body.editorial +'\',\''+ req.body.edition +'\',\''+ req.body.lang +'\',\''+ req.body.cover_type +'\',\''+ req.body.recommended_age+'\')';    
-  console.log(str)
+  let str="SELECT * FROM book WHERE isbn= $1;";
+  let vars=[req.params.isbn];
+
+  console.log(str);
   connect(function(err, client, done) {
-  client.query(str,(err, result)=> {
+    client.query(str, vars,(err, result)=> {
+        //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
+        done(err);
+        if(err) {
+          res.json([{bool: false }]);
+          return console.error('error running query', err);
+        }
+        else{
+          res.json(result.row);
+          console.log("funciono?");
+        }
+    });
+  });
+})
+
+//Modificar los datos de un producto especifico de la base de datos
+app.put("/updateProduct", function(req,res){
+
+  let str="UPDATE book SET name_subcategory=$2, publication_year=$3, synopsis=$4, title=$5, author=$6, number_of_pages=$7, price=$8, editorial=$9, edition=$10, lang=$11, cover_type=$12, recommended_age=$13 WHERE isbn=$1;";
+  let vars = [req.body.isbn,req.body.name_subcategory, req.body.publication_year, req.body.synopsis, req.body.title, req.body.author,req.body.number_of_pages, req.body.price, req.body.editorial, req.body.edition , req.body.lang , req.body.cover_type, req.body.recommended_age];  
+
+  console.log(str);
+  connect(function(err, client, done) {
+  client.query(str,vars,(err, result)=> {
       //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
       done(err);
       if(err) {
@@ -96,34 +123,15 @@ app.get("/getProduct", function(req,res){
 });
 })
 
-//Modificar productos de la base de datos
-app.post("/updateProduct", function(req,res){
+//Eliminar un producto especifico de la base de datos
+app.delete('/deleteProduct/:isbn', function(req,res){
 
-  str='INSERT INTO book VALUES ('+req.body.isbn+',\''+ req.body.name_subcategory +'\',\''+ req.body.publication_year +'\',\''+ req.body.synopsis +'\',\''+ req.body.title +'\',\''+ req.body.author +'\','+ req.body.number_of_pages +','+ req.body.price +',\''+ req.body.editorial +'\',\''+ req.body.edition +'\',\''+ req.body.lang +'\',\''+ req.body.cover_type +'\',\''+ req.body.recommended_age+'\')';    
-  console.log(str)
+  let str="DELETE FROM book WHERE isbn= $1;";
+  let vars=[req.params.isbn];
+
+  console.log(str);
   connect(function(err, client, done) {
-  client.query(str,(err, result)=> {
-      //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
-      done(err);
-      if(err) {
-        res.json([{bool: false }]);
-        return console.error('error running query', err);
-      }
-      else{
-        res.json([{bool: true }]);
-        console.log("funciono?");
-      }
-  });
-});
-})
-
-//Eliminar productos de la base de datos
-app.delete("/deleteProduct", function(req,res){
-
-  str='INSERT INTO book VALUES ('+req.body.isbn+',\''+ req.body.name_subcategory +'\',\''+ req.body.publication_year +'\',\''+ req.body.synopsis +'\',\''+ req.body.title +'\',\''+ req.body.author +'\','+ req.body.number_of_pages +','+ req.body.price +',\''+ req.body.editorial +'\',\''+ req.body.edition +'\',\''+ req.body.lang +'\',\''+ req.body.cover_type +'\',\''+ req.body.recommended_age+'\')';    
-  console.log(str)
-  connect(function(err, client, done) {
-  client.query(str,(err, result)=> {
+  client.query(str, vars,(err, result)=> {
       //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
       done(err);
       if(err) {
