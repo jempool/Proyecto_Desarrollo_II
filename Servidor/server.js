@@ -50,6 +50,47 @@ app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bo
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
+app.post("/crearSubCategorias", function (req, res) {
+
+
+  let str;
+  let vars=[];
+  if(req.body.type==="category"){
+    str="INSERT INTO category VALUES($1,$2) "
+    vars.push(req.body.name)
+    vars.push(req.body.description)
+  }
+  else{
+    str="INSERT INTO subcategory (name_subcategory,name_category,description) VALUES($1,$2,$3) "
+    vars.push(req.body.name)
+    vars.push(req.body.categoryName)
+    vars.push(req.body.description)
+  }
+
+
+  console.log(vars)
+
+    connect(function(err, client, done) {
+      if(err) {
+          return console.error('error fetching client from pool', err);
+      }
+      //use the client for executing the query
+  
+      client.query(str,vars,(err, result) =>{
+
+        console.log(str)
+        //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
+        done(err);
+        if(err) {
+          res.json([{bool:false}]);
+          return console.error('error running query', err);
+        }
+        else{
+          res.json([{bool:true}]);
+        }
+      });
+    });
+  });
 
 
 /////////////////////////////////////////////////////
