@@ -51,9 +51,12 @@ app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bo
 
 
 //Actualiza los datos de un determinado usuario en la base de datos
-app.delete("/eliminarCategorias", function (req, res) {
+app.delete("/eliminarSubCategorias", function (req, res) {
 
-  let str = "DELETE FROM category WHERE name_category=$1;"
+
+  let str;
+  if(req.body.tipo==="categoria") str="DELETE FROM category WHERE name_category=$1;"
+  else str="DELETE FROM subcategory WHERE name_subcategory=$1;"
 
   let vars = [req.body.category]
 
