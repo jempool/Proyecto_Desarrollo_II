@@ -34,16 +34,21 @@ export default class Categories extends React.Component {
 
   eliminar(){
 
-    fetch("/consultarSubCategorias", {
-      method: "POST",
+    fetch("/eliminarSubCategorias", {
+      method: "DELETE",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ table: "category"})
+      body: JSON.stringify({ type: "category", category:this.state.name})
     })
     .then(res => res.json())
-    .then(res => this.setState({categoryNames:res}))
+    .then(res =>{
+      if(res.bool){
+        console.log("SI ELIMINO")
+      }
+      else console.log("NO ELIMINO")
+    })
 
   }
 
@@ -67,15 +72,15 @@ export default class Categories extends React.Component {
 
       switch(this.state.type){
         case "Search":
-            return (<div>
-              <h2>Nombre:</h2>
-              <h3>{this.state.name}</h3>
+            return (<div key="0">
+              <h2 key="1">Nombre:</h2>
+              <h3 key="2">{this.state.name}</h3>
 
-              <h2>Description:</h2>
-              <h3>{this.state.description}</h3>
+              <h2 key="3">Description:</h2>
+              <h3 key="4">{this.state.description}</h3>
 
-              <Button>Actualizar</Button>
-              <Button onclick={this.eliminar}>Eliminar</Button>
+              <Button key="5">Actualizar</Button>
+              <Button key="6" onClick={this.eliminar}>Eliminar</Button>
           
             </div>);
         default:
