@@ -15,7 +15,7 @@ var config = {
   database: 'Library', //env var: PGDATABASE
   password: '1234', //env var: PGPASSWORD
   host: 'localhost', // Server hosting the postgres database
-  port: 5432, //env var: PGPORT
+  port: 5431, //env var: PGPORT
   max: 10, // max number of clients in the pool
   idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
 };
@@ -53,7 +53,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bo
 //Actualiza los datos de un determinado usuario en la base de datos
 app.delete("/eliminarCategorias", function (req, res) {
 
-  let str = "DELETE FROM category WHERE name_category='$1' ;"
+  let str = "DELETE FROM category WHERE name_category=$1;"
 
   let vars = [req.body.category]
 
