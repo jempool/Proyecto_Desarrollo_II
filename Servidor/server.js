@@ -50,9 +50,9 @@ app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bo
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 //Actualiza los datos de un determinado usuario en la base de datos
-app.get("/consultarCategorias", function (req, res) {
+app.post("/consultarSubCategorias", function (req, res) {
 
-  let str = "SELECT * FROM category;"
+  let str = "SELECT * FROM "+req.body.table
 
 
     connect(function(err, client, done) {
