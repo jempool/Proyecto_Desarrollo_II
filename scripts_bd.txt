@@ -1,14 +1,14 @@
 DROP TABLE IF EXISTS client CASCADE;
 CREATE TABLE client(
-   username         CHAR(15) PRIMARY KEY,
-   first_name       CHAR(20) NOT NULL,
-   last_name      CHAR(20) NOT NULL,
+   username         TEXT PRIMARY KEY,
+   first_name       TEXT NOT NULL,
+   last_name      TEXT NOT NULL,
    date_birth	    DATE NOT NULL,
    type_id          CHAR(2),
    id	          BIGINT NOT NULL,
    password	    TEXT NOT NULL,
    phone_number  	    INT NOT NULL,
-   address	    CHAR(50) NOT NULL,
+   address	    TEXT NOT NULL,
    email 	    TEXT NOT NULL,	
    credit_card_number   BIGINT,
    state 	    BOOLEAN NOT NULL,	
@@ -38,32 +38,33 @@ CREATE TABLE category(
 DROP TABLE IF EXISTS subcategory CASCADE;
 CREATE TABLE subcategory(
    name_subcategory	CHAR(15) PRIMARY KEY,
-   name_category	CHAR(15) REFERENCES category(name_category),
-   description	    TEXT NOT NULL
+   name_category	CHAR(15),
+   description	    TEXT NOT NULL,
+CONSTRAINT fk_category FOREIGN KEY (name_category) REFERENCES category (name_category) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS book CASCADE;
 CREATE TABLE book(
-   ISBN         	CHAR(15) PRIMARY KEY,
-   name_subcategory	CHAR(9) REFERENCES subcategory(name_subcategory),	
-   publication_year	DATE NOT NULL,
+   ISBN         	BIGINT PRIMARY KEY,
+   name_subcategory	TEXT REFERENCES subcategory(name_subcategory),	
+   publication_year	TEXT NOT NULL,
    synopsis 		TEXT NOT NULL,
    title		TEXT NOT NULL,
-   author		CHAR(15) NOT NULL,	
+   author		TEXT NOT NULL,	
    number_of_pages 		INT NOT NULL,
    price		BIGINT NOT NULL,   
    editorial 		TEXT NOT NULL,
    edition		TEXT NOT NULL,
-   lang		CHAR(20) NOT NULL,	
+   lang		TEXT NOT NULL,	
    cover_type 		CHAR(1) NOT NULL,
-   recommended_age		BIGINT NOT NULL
+   recommended_age		TEXT NOT NULL
    CHECK (cover_type IN ('G', 'B'))
 );
 
 DROP TABLE IF EXISTS critics CASCADE;
 CREATE TABLE critics(
-   username         CHAR(15) REFERENCES client(username),
-   ISBN		    CHAR(15) REFERENCES book(ISBN),
+   username         TEXT REFERENCES client(username),
+   ISBN		    BIGINT REFERENCES book(ISBN),
    comment	    TEXT NOT NULL,
    score 		INT NOT NULL
 );
@@ -71,14 +72,14 @@ CREATE TABLE critics(
 DROP TABLE IF EXISTS bill CASCADE;
 CREATE TABLE bill(
    id_bill          BIGINT PRIMARY KEY,
-   username		    CHAR(15) REFERENCES client(username),
+   username		    TEXT REFERENCES client(username),
    date		    DATE NOT NULL
 );
 
 DROP TABLE IF EXISTS bill_book CASCADE;
 CREATE TABLE bill_book(
    id_bill      BIGINT REFERENCES bill(id_bill),
-   ISBN		    CHAR(15) REFERENCES book(ISBN),
+   ISBN		    BIGINT REFERENCES book(ISBN),
    quantity	    INT NOT NULL
 );
 
@@ -92,7 +93,10 @@ CREATE TABLE distribution_point(
 
 DROP TABLE IF EXISTS inventario CASCADE;
 CREATE TABLE inventario(
-   id_dp        BIGINT REFERENCES distribution_point(id_dp),
-   ISBN		    CHAR(15) REFERENCES book(ISBN),
+   id_dp        INT REFERENCES distribution_point(id_dp),
+   ISBN		    BIGINT REFERENCES book(ISBN),
    availability	    INT NOT NULL
 );
+
+INSERT INTO category VALUES ('DRAMA','CUALQUIERA PARCE');
+INSERT INTO subcategory VALUES ('JUVENIL','DRAMA', 'CUALQUIERA PARCE');
