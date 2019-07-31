@@ -95,10 +95,10 @@ app.post("/actualizarSubCategorias", function (req, res) {
 /////////////////////////////////////////////////////
 
 //insertar un cliente
-app.post("/client_register",function(req,res){
+app.post("/insertClient",function(req,res){
 
   let str = 'INSERT INTO client VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)'
-  let vars = [req.body.username,req.body.first_name, req.body.last_name, req.body.date_birth, req.body.type_id, req.body.id, req.body.password, req.body.phone_numbre, req.body.address, req.body.email, req.body.credit_card_number, req.body.State]
+  let vars = [req.body.username,req.body.first_name, req.body.last_name, req.body.date_birth, req.body.type_id, req.body.id, req.body.password, req.body.phone_number, req.body.address, req.body.email, req.body.credit_card_number, req.body.state]
 
   console.log(str);
 
@@ -122,7 +122,7 @@ app.post("/client_register",function(req,res){
 app.post("/getClient",function(req,res){
 
   let str = "SELECT * FROM client WHERE username = $1;";
-  let vars = [req.params.username]
+  let vars = [req.body.username]
 
   console.log(str);
   connect(function(err,client,done){
@@ -136,8 +136,8 @@ app.post("/getClient",function(req,res){
       }
       else{
 
-        res.json(result.now);
-        console.log(":v");
+        res.json(result.row);
+        console.log(res);
       }
     });
   });
@@ -145,10 +145,10 @@ app.post("/getClient",function(req,res){
 
 //Modificar cliente
 
-app.post("/updateClient", function(req,res){
+app.put("/updateClient", function(req,res){
 
   let str = "UPDATE client SET first_name=$2, last_name=$3, date_birth=$4, type_id=$5, id=$6, password=$7, phone_number=$8, address=$9, email=$10, credit_card_number=$11, state=$12 WHERE username = $1;";
-  let vars = [req.body.username, req.body.first_name, req.body.last_name, req.body.date_birth, req.body.type_id, req.body.id, req.body.password, req.body.phone_numbre, req.body.address, req.body.email, req.body.credit_card_number, req.body.State];
+  let vars = [req.body.username, req.body.first_name, req.body.last_name, req.body.date_birth, req.body.type_id, req.body.id, req.body.password, req.body.phone_number, req.body.address, req.body.email, req.body.credit_card_number, req.body.state];
 
   console.log(str)
   connect(function(err,client,done){
