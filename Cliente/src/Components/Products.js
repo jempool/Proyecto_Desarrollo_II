@@ -84,15 +84,7 @@ export default class Products extends React.Component {
       })
     })
     .then(res => res.json())
-    .then(res => {
-      if(res[0].bool){
-        console.log("Creo que funciona");
-      }
-      else{
-        console.log("Creo que no funciona");
-      }
-    }
-    )
+    .then(res => this.setState(res[0]))
   }
 
   updatepro(){
@@ -104,6 +96,18 @@ export default class Products extends React.Component {
       },
       body: JSON.stringify({
         isbn : this.state.isbn,
+        name_subcategory: this.state.name_subcategory,
+        publication_year: this.state.publication_year,
+        synopsis: this.state.synopsis,
+        title: this.state.title,
+        author: this.state.author,
+        number_of_pages: this.state.number_of_pages,
+        price: this.state.price, 
+        editorial: this.state.editorial,
+        edition: this.state.edition,
+        lang: this.state.lang,
+        cover_type: this.state.cover_type,
+        recommended_age: this.state.recommended_age 
       })
     })
     .then(res => res.json())
@@ -284,7 +288,7 @@ export default class Products extends React.Component {
               <Input name="lang" type="text" placeholder='Lenguaje*' onChange={this.actualizarDatos} value={this.state.lang}/><br/> 
               <Input name="cover_type" type="text" placeholder='Tipo de cubierta*' onChange={this.actualizarDatos} value={this.state.cover_type}/><br/>
               <Input name="recommended_age" type="text" placeholder='Edad recomedada*' onChange={this.actualizarDatos} value={this.state.recommended_age}/> <br/>
-              <Button type="submit" onClick={this.updatepro}>Insertar producto</Button> <br/>
+              <Button type="submit" onClick={this.updatepro}>Actualizar producto</Button> <br/>
             </form>          
           </div>
         );

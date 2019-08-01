@@ -93,7 +93,7 @@ app.post('/getProduct', function(req,res){
           return console.error('error running query', err);
         }
         else{
-          res.json(result.row);
+          res.json(result.rows);
           console.log("funciono?");
         }
     });
