@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input } from '@material-ui/core';
+import { Button, Input, Select} from '@material-ui/core';
 
 export default class Categories extends React.Component {
   constructor(props){
@@ -188,7 +188,7 @@ export default class Categories extends React.Component {
       return (<div>
         <h1>Categorias</h1>
         
-        <select
+        <Select
               name="categoryName"
               value={this.state.selected}
               onChange={this.handleSelect}
@@ -200,7 +200,7 @@ export default class Categories extends React.Component {
                         <option value={x.name_category} key={x.name_category}>
                               {x.name_category}
                         </option>)}
-        </select>
+        </Select>
         {this.getFormular()}
         <Button onClick={()=>this.setState({
                           type:"Create",
