@@ -60,7 +60,6 @@ app.post("/insertClient",function(req,res){
   let str = 'INSERT INTO client VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)'
   let vars = [req.body.username,req.body.first_name, req.body.last_name, req.body.date_birth, req.body.type_id, req.body.id, req.body.password, req.body.phone_number, req.body.address, req.body.email, req.body.credit_card_number, req.body.state]
 
-  console.log(str);
 
   connect(function(err,client,done){
     client.query(str,vars,(err, result)=> {
@@ -70,8 +69,8 @@ app.post("/insertClient",function(req,res){
         return console.error('error running query',err);
       }
       else{
-        res.json(result.row);
-        console.log(":v");
+        res.json([{bool:true}]);
+
       }
     });
   });
