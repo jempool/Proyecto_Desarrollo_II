@@ -16,14 +16,47 @@ export default class Categories extends React.Component {
     this.getFormular = this.getFormular.bind(this);
     this.eliminar = this.eliminar.bind(this);
     this.crear = this.crear.bind(this);
-    this.showForm =this.showForm.bind(this);
-    //this.getNames();
+    this.actualizar = this.actualizar.bind(this);
+    this.handleName = this.handleName.bind(this);
+    this.handleDescription = this.handleDescription.bind(this)
+    this.getNames();
 
   }
+
+
+  actualizar(){
+
+    fetch("/actualizarSubCategorias", {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ type: "category", 
+      name:this.state.name,
+      description:this.state.description})
+    })
+    .then(res => res.json())
+    .then(res =>{
+      if(res.bool){
+        console.log("SI ACTUALIZO")
+      }
+      else console.log("NO ACTUALIZO")
+      this.getNames()
+      this.setState({
+        type:"Search",
+        selected:'Select'
+      })
+    })
+
+  }
+
+
 
   getNames(){
     fetch("/consultarSubCategorias", {
       method: "POST",
+
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
@@ -50,6 +83,11 @@ export default class Categories extends React.Component {
         console.log("SI ELIMINO")
       }
       else console.log("NO ELIMINO")
+      this.getNames()
+      this.setState({
+        type:"Search",
+        selected:"Select"
+      })
     })
 
   }
@@ -69,11 +107,15 @@ export default class Categories extends React.Component {
     .then(res => res.json())
     .then(res =>{
       if(res.bool){
-        console.log("SI ELIMINO")
+        console.log("SI CREO")
       }
-      else console.log("NO ELIMINO")
+      else console.log("NO CREO")
+      this.getNames()
+      this.setState({
+        type:"Search",
+        selected:'Select'
+      })
     })
-
   }
 
   handleSelect(event){
@@ -83,40 +125,56 @@ export default class Categories extends React.Component {
         selected:event.target.value,
         name:object.name_category,
         description:object.description
-      },() => {
-        console.log(this.state);
-      }); 
+      });
+    } 
+    else{
+      this.setState({
+        selected:"Select"
+      });
     }
   }
 
-  showForm(){
+
+  handleName(event){
     this.setState({
-      type:"Create",
-      name:"",
-      description:"",
+      name:event.target.value
     })
   }
 
-
+  handleDescription(event){
+    this.setState({
+      description:event.target.value
+    })
+  }
 
   getFormular(){
 
     if(this.state.selected!=="Select"){
-    console.log(this.state)
 
       switch(this.state.type){
         case "Search":
             return (<div key="0">
-              <h2 key="1">Nombre:</h2>
-              <h3 key="2">{this.state.name}</h3>
+              <h2 >Nombre:</h2>
+              <h3 >{this.state.name}</h3>
 
-              <h2 key="3">Description:</h2>
-              <h3 key="4">{this.state.description}</h3>
+              <h2 >Description:</h2>
+              <h3 >{this.state.description}</h3>
 
-              <Button key="5">Actualizar</Button>
-              <Button key="6" onClick={this.eliminar}>Eliminar</Button>
+              <Button onClick={()=>this.setState({type:"Actualizar"})}>Actualizar</Button>
+              <Button onClick={this.eliminar}>Eliminar</Button>
           
             </div>);
+        case "Actualizar":
+          return ( <div>
+            <form>
+              <h3>Nombre de la categoria:</h3>
+              <Input value={this.state.name} onChange={this.handleName} disabled/><br/>
+              <h3>Descripcion de la categoria:</h3>
+              <Input value={this.state.description} onChange={this.handleDescription} placeholder='Descripcion de la categoria'/><br/>
+              <Button onClick={this.actualizar}>Actualizar</Button>
+              <Button onClick={()=>this.setState({type:"Search"})}>Cancelar</Button>
+            </form>
+          </div>);
         default:
           return
       }
@@ -125,16 +183,17 @@ export default class Categories extends React.Component {
 
   render(){
 
-    if(this.state.type!=="Create"){
+
+    if(this.state.type!=='Create'){
       return (<div>
         <h1>Categorias</h1>
         
         <select
               name="categoryName"
-              defaultValue="Select"
+              value={this.state.selected}
               onChange={this.handleSelect}
             >
-              <option value="Select" disabled>
+              <option value="Select" > 
                 Selecciona una categoria:
               </option>
               {this.state.categoryNames.map(x =>
@@ -143,7 +202,11 @@ export default class Categories extends React.Component {
                         </option>)}
         </select>
         {this.getFormular()}
-        <Button onClick={this.showForm()}>Crear Categoria</Button>
+        <Button onClick={()=>this.setState({
+                          type:"Create",
+                          name:"",
+                          description:"",
+                        })}>Crear Categoria</Button>
       </div>);
     }
     else{
@@ -152,10 +215,11 @@ export default class Categories extends React.Component {
           <h1>Categorias</h1>
           <form>
             <h3>Nombre de la categoria:</h3>
-            <Input placeholder='Nombre de la categoria'/><br/>
+            <Input value={this.state.name} onChange={this.handleName} placeholder='Nombre de la categoria'/><br/>
             <h3>Descripcion de la categoria:</h3>
-            <Input placeholder='Descripcion de la categoria'/><br/>
-            <Button onClick={this.crear()}>Crear</Button>
+            <Input value={this.state.description} onChange={this.handleDescription} placeholder='Descripcion de la categoria'/><br/>
+            <Button onClick={this.crear}>Crear</Button>
+            <Button onClick={()=>this.setState({type:"Search",selected:"Select"})}>Cancelar</Button>
           </form>
         </div>
       )

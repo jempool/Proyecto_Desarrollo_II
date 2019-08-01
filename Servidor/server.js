@@ -82,11 +82,11 @@ app.post("/crearSubCategorias", function (req, res) {
         //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
         done(err);
         if(err) {
-          res.json([{bool:false}]);
+          res.json({bool:false});
           return console.error('error running query', err);
         }
         else{
-          res.json([{bool:true}]);
+          res.json({bool:true});
         }
       });
     });
@@ -108,6 +108,46 @@ app.post("/consultarSubCategorias", function (req, res) {
         //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
         done(err);
         res.json(result.rows);
+      });
+    });
+  });
+
+  //Actualiza los datos de un determinado usuario en la base de datos
+app.post("/actualizarSubCategorias", function (req, res) {
+
+
+  let str;
+  let vars;
+  if(req.body.type==="category"){
+     str="UPDATE category SET description=$2 WHERE name_category=$1;"
+     vars=[req.body.name,req.body.description]
+  }
+  else{
+     str="UPDATE subcategory SET description=$2,name_category=$3 WHERE name_subcategory=$1;"
+     vars=[req.body.name,req.body.description,req.body.categoryName]
+  }
+
+
+  console.log(vars)
+
+    connect(function(err, client, done) {
+      if(err) {
+          return console.error('error fetching client from pool', err);
+      }
+      //use the client for executing the query
+  
+      client.query(str,vars,(err, result) =>{
+
+        console.log(str)
+        //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
+        done(err);
+        if(err) {
+          res.json({bool:false});
+          return console.error('error running query', err);
+        }
+        else{
+          res.json({bool:true});
+        }
       });
     });
   });
