@@ -45,15 +45,10 @@ CONSTRAINT fk_category FOREIGN KEY (name_category) REFERENCES category (name_cat
 
 DROP TABLE IF EXISTS book CASCADE;
 CREATE TABLE book(
-<<<<<<< HEAD
+
    ISBN         	BIGINT PRIMARY KEY,
    name_subcategory	TEXT REFERENCES subcategory(name_subcategory),	
    publication_year	TEXT NOT NULL,
-=======
-   ISBN         	TEXT PRIMARY KEY,
-   name_subcategory	TEXT REFERENCES subcategory(name_subcategory),	
-   publication_year	DATE NOT NULL,
->>>>>>> origin/AD-16
    synopsis 		TEXT NOT NULL,
    title		TEXT NOT NULL,
    author		TEXT NOT NULL,	
@@ -70,11 +65,8 @@ CREATE TABLE book(
 DROP TABLE IF EXISTS critics CASCADE;
 CREATE TABLE critics(
    username         TEXT REFERENCES client(username),
-<<<<<<< HEAD
    ISBN		    BIGINT REFERENCES book(ISBN),
-=======
-   ISBN		    TEXT REFERENCES book(ISBN),
->>>>>>> origin/AD-16
+>>>>>>> origin/CL-03
    comment	    TEXT NOT NULL,
    score 		INT NOT NULL
 );
@@ -89,11 +81,7 @@ CREATE TABLE bill(
 DROP TABLE IF EXISTS bill_book CASCADE;
 CREATE TABLE bill_book(
    id_bill      BIGINT REFERENCES bill(id_bill),
-<<<<<<< HEAD
    ISBN		    BIGINT REFERENCES book(ISBN),
-=======
-   ISBN		    TEXT REFERENCES book(ISBN),
->>>>>>> origin/AD-16
    quantity	    INT NOT NULL
 );
 
@@ -107,13 +95,9 @@ CREATE TABLE distribution_point(
 
 DROP TABLE IF EXISTS inventario CASCADE;
 CREATE TABLE inventario(
-<<<<<<< HEAD
+
    id_dp        INT REFERENCES distribution_point(id_dp),
    ISBN		    BIGINT REFERENCES book(ISBN),
-=======
-   id_dp        BIGINT REFERENCES distribution_point(id_dp),
-   ISBN		    TEXT REFERENCES book(ISBN),
->>>>>>> origin/AD-16
    availability	    INT NOT NULL
 );
 
