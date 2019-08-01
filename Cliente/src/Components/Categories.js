@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Input } from '@material-ui/core';
 
 export default class Categories extends React.Component {
   constructor(props){
@@ -15,7 +15,9 @@ export default class Categories extends React.Component {
     this.handleSelect = this.handleSelect.bind(this);
     this.getFormular = this.getFormular.bind(this);
     this.eliminar = this.eliminar.bind(this);
-    this.getNames();
+    this.crear = this.crear.bind(this);
+    this.showForm =this.showForm.bind(this);
+    //this.getNames();
 
   }
 
@@ -52,6 +54,28 @@ export default class Categories extends React.Component {
 
   }
 
+  crear(){
+
+    fetch("/crearSubCategorias", {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ type: "category",
+                             name:this.state.name,
+                             description:this.state.description})
+    })
+    .then(res => res.json())
+    .then(res =>{
+      if(res.bool){
+        console.log("SI ELIMINO")
+      }
+      else console.log("NO ELIMINO")
+    })
+
+  }
+
   handleSelect(event){
     if(event.target.value!=="Select"){
       let object = this.state.categoryNames.find(x => x.name_category===event.target.value)
@@ -64,6 +88,16 @@ export default class Categories extends React.Component {
       }); 
     }
   }
+
+  showForm(){
+    this.setState({
+      type:"Create",
+      name:"",
+      description:"",
+    })
+  }
+
+
 
   getFormular(){
 
@@ -91,26 +125,40 @@ export default class Categories extends React.Component {
 
   render(){
 
-    return (<div>
-      <h1>Categories</h1>
-      
-      <select
-            name="categoryName"
-            defaultValue="Select"
-            onChange={this.handleSelect}
-          >
-            <option value="Select" disabled>
-              Selecciona una categoria:
-            </option>
-            {this.state.categoryNames.map(x =>
-                      <option value={x.name_category} key={x.name_category}>
-                            {x.name_category}
-                      </option>)}
-      </select>
-      {this.getFormular()}
-      <Button>Crear Categoria</Button>
-    </div>);
-
-    
+    if(this.state.type!=="Create"){
+      return (<div>
+        <h1>Categorias</h1>
+        
+        <select
+              name="categoryName"
+              defaultValue="Select"
+              onChange={this.handleSelect}
+            >
+              <option value="Select" disabled>
+                Selecciona una categoria:
+              </option>
+              {this.state.categoryNames.map(x =>
+                        <option value={x.name_category} key={x.name_category}>
+                              {x.name_category}
+                        </option>)}
+        </select>
+        {this.getFormular()}
+        <Button onClick={this.showForm()}>Crear Categoria</Button>
+      </div>);
+    }
+    else{
+      return(
+        <div>
+          <h1>Categorias</h1>
+          <form>
+            <h3>Nombre de la categoria:</h3>
+            <Input placeholder='Nombre de la categoria'/><br/>
+            <h3>Descripcion de la categoria:</h3>
+            <Input placeholder='Descripcion de la categoria'/><br/>
+            <Button onClick={this.crear()}>Crear</Button>
+          </form>
+        </div>
+      )
+    }
   }
 }
