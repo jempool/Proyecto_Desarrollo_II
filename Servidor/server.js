@@ -81,7 +81,7 @@ app.post("/insertProduct", function(req,res){
 app.post('/getProduct', function(req,res){
 
   let str="SELECT * FROM book WHERE isbn= $1;";
-  let vars=[req.params.isbn];
+  let vars=[req.body.isbn];
 
   console.log(str);
   connect(function(err, client, done) {
