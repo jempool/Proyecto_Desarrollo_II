@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard"
 import { JsonToTable } from "react-json-to-table";
 import { Table } from "@material-ui/core";
 import "./Admin_page.css"
@@ -26,9 +25,7 @@ class Admin_page extends Component {
     };
     this.handleClick = this.handleClick.bind(this);
   }
-  // handleList = (e) => {
-  //   console.log(e); return;
-  // };
+ 
 
   handleClick(e) {
 

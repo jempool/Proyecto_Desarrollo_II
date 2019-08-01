@@ -45,7 +45,6 @@ CONSTRAINT fk_category FOREIGN KEY (name_category) REFERENCES category (name_cat
 
 DROP TABLE IF EXISTS book CASCADE;
 CREATE TABLE book(
-
    ISBN         	BIGINT PRIMARY KEY,
    name_subcategory	TEXT REFERENCES subcategory(name_subcategory),	
    publication_year	TEXT NOT NULL,
@@ -66,7 +65,10 @@ DROP TABLE IF EXISTS critics CASCADE;
 CREATE TABLE critics(
    username         TEXT REFERENCES client(username),
    ISBN		    BIGINT REFERENCES book(ISBN),
+<<<<<<< HEAD:scripts_bd.sql
 >>>>>>> origin/CL-03
+=======
+>>>>>>> origin/CL-01:scripts_bd.txt
    comment	    TEXT NOT NULL,
    score 		INT NOT NULL
 );
@@ -95,7 +97,6 @@ CREATE TABLE distribution_point(
 
 DROP TABLE IF EXISTS inventario CASCADE;
 CREATE TABLE inventario(
-
    id_dp        INT REFERENCES distribution_point(id_dp),
    ISBN		    BIGINT REFERENCES book(ISBN),
    availability	    INT NOT NULL
