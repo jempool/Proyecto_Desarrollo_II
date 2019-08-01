@@ -39,14 +39,15 @@ DROP TABLE IF EXISTS subcategory CASCADE;
 CREATE TABLE subcategory(
    name_subcategory	CHAR(15) PRIMARY KEY,
    name_category	CHAR(15) REFERENCES category(name_category),
-   description	    TEXT NOT NULL
+   description	    TEXT NOT NULL,
+CONSTRAINT fk_category FOREIGN KEY (name_category) REFERENCES category (name_category) ON DELETE CASCADE;
 );
 
 DROP TABLE IF EXISTS book CASCADE;
 CREATE TABLE book(
-   ISBN         	TEXT PRIMARY KEY,
+   ISBN         	BIGINT PRIMARY KEY,
    name_subcategory	TEXT REFERENCES subcategory(name_subcategory),	
-   publication_year	DATE NOT NULL,
+   publication_year	TEXT NOT NULL,
    synopsis 		TEXT NOT NULL,
    title		TEXT NOT NULL,
    author		TEXT NOT NULL,	
@@ -56,14 +57,14 @@ CREATE TABLE book(
    edition		TEXT NOT NULL,
    lang		TEXT NOT NULL,	
    cover_type 		CHAR(1) NOT NULL,
-   recommended_age		BIGINT NOT NULL
+   recommended_age		TEXT NOT NULL
    CHECK (cover_type IN ('G', 'B'))
 );
 
 DROP TABLE IF EXISTS critics CASCADE;
 CREATE TABLE critics(
    username         TEXT REFERENCES client(username),
-   ISBN		    TEXT REFERENCES book(ISBN),
+   ISBN		    BIGINT REFERENCES book(ISBN),
    comment	    TEXT NOT NULL,
    score 		INT NOT NULL
 );
@@ -78,7 +79,7 @@ CREATE TABLE bill(
 DROP TABLE IF EXISTS bill_book CASCADE;
 CREATE TABLE bill_book(
    id_bill      BIGINT REFERENCES bill(id_bill),
-   ISBN		    TEXT REFERENCES book(ISBN),
+   ISBN		    BIGINT REFERENCES book(ISBN),
    quantity	    INT NOT NULL
 );
 
@@ -92,7 +93,10 @@ CREATE TABLE distribution_point(
 
 DROP TABLE IF EXISTS inventario CASCADE;
 CREATE TABLE inventario(
-   id_dp        BIGINT REFERENCES distribution_point(id_dp),
-   ISBN		    TEXT REFERENCES book(ISBN),
+   id_dp        INT REFERENCES distribution_point(id_dp),
+   ISBN		    BIGINT REFERENCES book(ISBN),
    availability	    INT NOT NULL
 );
+
+INSERT INTO category VALUES ('DRAMA','CUALQUIERA PARCE');
+INSERT INTO subcategory VALUES ('JUVENIL','DRAMA', 'CUALQUIERA PARCE');
