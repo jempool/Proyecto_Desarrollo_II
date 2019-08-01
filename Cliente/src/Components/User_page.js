@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button, Input} from '@material-ui/core'
 
 export default class User_page extends React.Component {
 
@@ -15,25 +16,25 @@ export default class User_page extends React.Component {
       address:'',
       email:'',
       credit_card_number:'',
-      State:true
+      State:true,
+      tipo: "inicio"
 
     }
 
-    this.handleChangeFirstName = this.handleChangeFirstName.bind(this);
-    this.handleChangeLasttName = this.handleChangeLasttName.bind(this);
-    this.handleChangeDateBirth = this.handleChangeDateBirth.bind(this);
-    this.handleChangePassword = this.handleChangePassword.bind(this);
-    this.handleChangePhoneNumber = this.handleChangePhoneNumber.bind(this);
-    this.handleChangeAddress = this.handleChangeAddress.bind(this);
-    this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    this.handleChangeCreditCardNumber = this.handleChangeCreditCardNumber.bind(this);
+  
 
     this.modCliente = this.modCliente.bind(this);
+    this.consultClient = this.consultClient.bind(this);
+    this.deleteClient = this.deleteClient.bind(this);
+    this.cambioPagina = this.cambioPagina.bind(this);
+    this.actualizarDatos = this.actualizarDatos.bind(this);
   }
 
+
+
   modCliente(){
-    fetch("/modifyClient",{
-      method:"POST",
+    fetch("/updateClient",{
+      method:"PUT",
       headers:{
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
@@ -50,23 +51,31 @@ export default class User_page extends React.Component {
         State:this.state.State
       })
     })
-    .then(res => res.json())
-    .then(res => {})
+    .then(res => {
+      if(res[0].bool){
+        console.log("Creo que funciona");
+      }
+      else{
+        console.log("Creo que no funciona");
+      }
+    }
+    )
   }
 
+
   consultClient(){
-    fetch("/consultClient",{
-      method:"GET",
+    fetch("/getClient",{
+      method:"POST",
       headers:{
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
       body:JSON.stringify({
-        username:this.state.username
+        username : this.state.username,
       })
     })
     .then(res => res.json())
-    .then(res => {})
+    .then(res => this.setState(res[0]))
   }
 
   deleteClient(){
@@ -81,71 +90,177 @@ export default class User_page extends React.Component {
       })
     })
     .then(res => res.json())
-    .then(res => {})
+    .then(res => {
+      if(res[0].bool){
+        console.log("funciona");
+      }
+      else{
+        console.log("no funciona");
+      }
+    }
+    )
   }
 
+  handleClick(e){
+    console.log(e.target.value);
+    this.setState({tipo: e.target.value});
+}
+
+actualizarDatos(e){
+
+  switch (e.target.name){
+    case 'username':
+      this.setState({
+        username:e.target.value
+      });
+      break;
+    case 'first_name':
+      this.setState({
+        first_name:e.target.value
+      })
+    break;
+    case 'last_name':
+      this.setState({
+        last_name:e.target.value
+      })
+    break;
+    case 'date_birth':
+      this.setState({
+        date_birth:e.target.value
+      })
+    break;
+    case 'type_Id':
+      this.setState({
+        type_Id:e.target.value
+      })
+    break;
+    case 'id':
+      this.setState({
+        id:e.target.value
+      })
+    break;
+    case 'password':
+      this.setState({
+        password:e.target.value
+      })
+    break;
+    case 'phone_number':
+      this.setState({
+        phone_number:e.target.value
+      })
+    break;
+    case 'address':
+      this.setState({
+        address:e.target.value
+      })
+    break;
+    case 'email':
+      this.setState({
+        email:e.target.value
+      })
+    break;
+    case 'credit_card_number':
+      this.setState({
+        credit_card_number:e.target.value
+      })
+    break;
+    case 'State':
+      this.setState({
+        State:e.target.value
+      })
+    break;
+
+    default:
+    break;
+  }
+}
+//<Input name="isbn" type="text" placeholder='ISBN*' onChange={this.actualizarDatos} value={this.state.isbn}/> <br/>
   cambioPagina(e){
 
-    switch(e.event.id){
+    switch(this.state.tipo){
 
       case "modify":
         return(
           <div>
             <h1>Edit your information</h1>
             <label for="first_name">First name:</label>
-            <input type="text" first_name="first_name"></input><br/>
+            <Input id='first_name' type="text"  placeholder='first_name*' onChange={this.actualizarDatos} value={this.state.first_name}></Input><br/>
 
             <label for="last_name">Last name:</label>
-            <input type="text" last_name="last_name"></input><br/>
+            <Input id='last_name' type="text"  placeholder='last_name*' onChange={this.actualizarDatos} value={this.state.last_name}></Input><br/>
 
             <label for="date_birth">Date birth:</label>
-            <input id ="date" type="date"></input><br/>
+            <Input id='date_birth' type="text"  placeholder='date_birth*' onChange={this.actualizarDatos} value={this.state.date_birth}></Input><br/>
 
             <label for="phone_number">Phone number:</label>
-            <input type="text" phone_number="phone_number"></input><br/>
+            <Input id='phone_number' type="text"  placeholder='phone_number*' onChange={this.actualizarDatos} value={this.state.phone_number}></Input><br/>
 
             <label for="address">Address:</label>
-            <input type="text" address="address"></input><br/>
+            <Input id='address' type="text"  placeholder='address*' onChange={this.actualizarDatos} value={this.state.address}></Input><br/>
 
             <label for="email">Email:</label>
-            <input type="text" email="email"></input><br/>
+            <Input id='email' type="text"  placeholder='email*' onChange={this.actualizarDatos} value={this.state.email}></Input><br/>
 
             <label for="credit_card_number">Credit card number:</label>
-            <input type="text" credit_card_number="credit_card_number"></input><br/>
+            <Input id='credit_card_number' type="text"  placeholder='credit_card_number*' onChange={this.actualizarDatos} value={this.state.credit_card_number}></Input><br/>
 
             <label for="password">Password:</label>
-            <input type="password" password="password"></input><br/>
+            <Input id='password' type="text"  placeholder='password*' onChange={this.actualizarDatos} value={this.state.password}></Input><br/>
 
-            <button id='modify' onClick={this.modcliente} >Edit</button>
+            <Button id='modify' onClick={this.modcliente} >Edit</Button>
 
           </div>
         );
         break;
 
-      case 'consult':
+      case "consult":
 
           return(
             <div>
-              <h1>Edit your information</h1>
+              <h1>Put the username of your account</h1>
               <label for="username">Username:</label>
-              <input type="text" username="username"></input><br/>
+              <Input id='username' type="text" placeholder='username*' onChange={this.actualizarDatos} value={this.state.username}></Input><br/>
 
-              <button id='consult' onClick={this.consultClient} >Consult</button>
-  
+              <Button id='consult' onClick={this.consultClient} >Consult</Button><br/>
+
+              <label for="first_name">First name:</label>
+            <Input id='first_name' type="text" disabled placeholder='first_name*' onChange={this.actualizarDatos} value={this.state.first_name}></Input><br/>
+
+            <label for="last_name">Last name:</label>
+            <Input id='last_name' type="text" disabled placeholder='last_name*' onChange={this.actualizarDatos} value={this.state.last_name}></Input><br/>
+
+            <label for="date_birth">Date birth:</label>
+            <Input id='date_birth' type="text" disabled placeholder='date_birth*' onChange={this.actualizarDatos} value={this.state.date_birth}></Input><br/>
+
+            <label for="phone_number">Phone number:</label>
+            <Input id='phone_number' type="text" disabled placeholder='phone_number*' onChange={this.actualizarDatos} value={this.state.phone_number}></Input><br/>
+
+            <label for="address">Address:</label>
+            <Input id='address' type="text" disabled placeholder='address*' onChange={this.actualizarDatos} value={this.state.address}></Input><br/>
+
+            <label for="email">Email:</label>
+            <Input id='email' type="text" disabled placeholder='email*' onChange={this.actualizarDatos} value={this.state.email}></Input><br/>
+
+            <label for="credit_card_number">Credit card number:</label>
+            <Input id='credit_card_number' type="text" disabled placeholder='credit_card_number*' onChange={this.actualizarDatos} value={this.state.credit_card_number}></Input><br/>
+
+            <label for="password">Password:</label>
+            <Input id='password' type="text" disabled placeholder='password*' onChange={this.actualizarDatos} value={this.state.password}></Input><br/>
+            
             </div>
           );
 
         break;
 
-      case 'delete':
+      case "delete":
 
           return(
             <div>
-              <h1>Edit your information</h1>
+              <h1>Put the username of your account</h1>
               <label for="username">Username:</label>
-              <input type="text" username="username"></input><br/>
+              <Input id='username' type="text" placeholder='username*' onChange={this.actualizarDatos} value={this.state.username}></Input><br/>
 
-              <button id='delete' onClick={this.deleteClient} >Delete</button>
+              <Button id='delete' onClick={this.deleteClient} >Delete</Button>
   
             </div>
           );
@@ -157,13 +272,16 @@ export default class User_page extends React.Component {
     render(){
       return( 
       
-      <div>
+      <div className='botons'>
       <h1>Welcome "inserte nombre aqui"</h1>
       <h2>What do you want to do?...</h2>
-      <button id='modify'>Modify my information</button><br/>
-      <button id='consult'>Consult my information</button><br/>
-      <button id='delete'>I want to delete my profile</button><br/>
+      <Button onClick={() => this.setState({tipo:"modify"})}>Modify my information</Button><br/>
+      <Button onClick={() => this.setState({tipo:"consult"})}>Consult my information</Button><br/>
+      <Button onClick={() => this.setState({tipo:"delete"})}>I want to delete my profile</Button><br/>
+      {this.cambioPagina()}
       </div>
       );
     }
   }
+
+  
