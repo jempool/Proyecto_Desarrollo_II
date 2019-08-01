@@ -1,6 +1,9 @@
 import React from 'react';
 
 export default class User_page extends React.Component {
+
+  cambioPagina(){}
+
     render(){
       return( 
       
