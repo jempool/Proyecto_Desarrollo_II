@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Button, Input} from '@material-ui/core'
 
 
 export default class Sign_up extends React.Component {
@@ -73,7 +73,15 @@ export default class Sign_up extends React.Component {
       })
     })
     .then(res => res.json())
-    .then(res => {})
+    .then(res => {
+      if(res[0].bool){
+        console.log("Creo que funciona");
+      }
+      else{
+        console.log("Creo que no funciona");
+      }
+    }
+    )
   }
 
     render(){
@@ -95,41 +103,41 @@ export default class Sign_up extends React.Component {
       <div>
       <h1>Sign up</h1>
       <label for="username">Username:   </label>
-      <input type="text" username="username"></input><br/>
+      <Input id='username' type="text"  placeholder='username*' onChange={this.handleChangeUsername} value={this.state.username}></Input><br/>
 
       <label for="first_name">First name:</label>
-      <input type="text" first_name="first_name"></input><br/>
+      <Input id='first_name' type="text"  placeholder='first_name*' onChange={this.handleChangeFirstName} value={this.state.first_name}></Input><br/>
 
       <label for="last_name">Last name:</label>
-      <input type="text" last_name="last_name"></input><br/>
+      <Input id='last_name' type="text"  placeholder='last_name*' onChange={this.handleChangeLastName} value={this.state.last_name}></Input><br/>
 
       <label for="date_birth">Date birth:</label>
-      <input id ="date" type="date"></input><br/>
+      <Input id='date_birth' type="text"  placeholder='date_birth*' onChange={this.handleChangeDateBirth} value={this.state.date_birth}></Input><br/>
 
       <label for="type_id">Type ID:</label>
-      <select id = "type_id">
+      <select id = "type_id"> onChange={this.handleChangeTypeId}
         <option value=" "></option>
         <option value="CC">Cedula de ciudadania</option>
         <option value="TI">Tarjeta de identidad</option>         
       </select><br/>
 
       <label for="id">ID:</label>
-      <input type="int" id="id"></input><br/>
+      <Input id='id' type="text"  placeholder='id*' onChange={this.handleChangeId} value={this.state.id}></Input><br/>
 
       <label for="phone_number">Phone number:</label>
-      <input type="text" phone_number="phone_number"></input><br/>
+      <Input id='phone_number' type="text"  placeholder='phone_number*' onChange={this.handleChangePhoneNumber} value={this.state.phone_number}></Input><br/>
 
       <label for="address">Address:</label>
-      <input type="text" address="address"></input><br/>
+      <Input id='address' type="text"  placeholder='address*' onChange={this.handleChangeAddress} value={this.state.address}></Input><br/>
 
       <label for="email">Email:</label>
-      <input type="text" email="email"></input><br/>
+      <Input id='email' type="text"  placeholder='email*' onChange={this.handleChangeEmail} value={this.state.email}></Input><br/>
 
       <label for="credit_card_number">Credit card number:</label>
-      <input type="text" credit_card_number="credit_card_number"></input><br/>
+      <Input id='credit_card_number' type="text"  placeholder='credit_card_number*' onChange={this.handleChangeCreditCardNumber} value={this.state.credit_card_number}></Input><br/>
 
       <label for="password">Password:</label>
-      <input type="password" password="password"></input><br/>
+      <Input id='password' type="text"  placeholder='password*' onChange={this.handleChangePassword} value={this.state.password}></Input><br/>
 
       <button id='registro' onClick={this.cliente} >SIGN UP</button>
       </div>
