@@ -10,7 +10,7 @@ const Pool = require('pg-pool');
 /////CONFIGURACION DE LA PISCINA DE USUARIOS//////////
 //////////////////////////////////////////////////////
 var config = {
-  
+
   user: 'postgres', //env var: PGUSER
   database: 'Library', //env var: PGDATABASE
   password: '1234', //env var: PGPASSWORD
@@ -34,7 +34,7 @@ pool.on('error', function (err, client) {
 
 //export the query method for passing queries to the pool
 function query(text, values, callback) {
-  
+
   return pool.query(text, values, callback);
 };
 
@@ -44,11 +44,11 @@ function connect(callback) {
   return pool.connect(callback);
 };
 
+
 var bodyParser = require("body-parser"); // middleware  to handle HTTP POST request
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bodies
 ///////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 /////////////////////////////////////////////////////
@@ -281,6 +281,80 @@ app.delete("/eliminarSubCategorias", function (req, res) {
       });
     });
   });
+
+// 
+app.post("/customers", function (req, res) {
+
+  if (req.body.action === "cliente") {
+
+
+    let str = "SELECT username, first_name, last_name, date_birth, type_id, id, phone_number, address, email, credit_card_number, state::CHAR(5) FROM public.client;";
+
+    connect(function (err, client, done) {
+
+      if (err) {
+        return console.error('error fetching client from pool', err);
+      }
+      //use the client for executing the query
+      client.query(str, (err, result) => {
+        //call `done(err)` to release the client back to the pool (or destroy it if there is an error)
+        done(err);
+
+
+        if (err) {
+          res.json([{ client: [] }]);
+          return console.error('error running query', err);
+        }
+        else {
+          res.json([{ client: result.rows }]);
+        }
+      })
+    });
+
+  }
+  if (req.body.action === "desactivar") {
+    let st;
+    console.log(req.body.client, " -> ");
+    let str1 = "SELECT state FROM public.client where username='" + req.body.client + "';"
+
+    connect(function (err, client, done) {
+      if (err) {
+        return console.error('error fetching client from pool', err);
+      }
+      client.query(str1, (err, result) => {
+        done(err);
+        if (err) {
+          res.json([{ client: [] }]);
+          return console.error('error running query', err);
+        }
+        else {
+          st = result.rows;
+        }
+      })
+    });
+
+    //--
+    connect(function (err, client, done) {
+      console.log(!st);
+      if (err) {
+        return console.error('error fetching client from pool', err);
+      }
+      client.query("UPDATE public.client SET state=" + !st + " WHERE username='" + req.body.client + "';", (err, result) => {
+        done(err);
+        if (err) {
+          res.json([{ client: [] }]);
+          return console.error('error running query', err);
+        }
+        // else           
+        //   console.log("activate/deactivate");              
+      })
+    });
+    //--
+
+
+  }
+
+});
 
 /////////////////////////////////////////////////////
 ////////////CONFIGURACION DEL PUERTO ////////////////

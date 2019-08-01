@@ -6,7 +6,7 @@ import App from './App';
 import Login from './Components/Login'
 import Home from "./Components/Home"
 import Sign_up from "./Components/Sign_up"
-import Admin_page from './Components/Admin_page';
+import Admin_page from './Components/Admin_page/Admin_page';
 import User_page from './Components/User_page';
 import Products from './Components/Products';
 import Categories from './Components/Categories';
