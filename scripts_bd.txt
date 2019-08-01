@@ -7,7 +7,7 @@ CREATE TABLE client(
    type_id          CHAR(2),
    id	          BIGINT NOT NULL,
    password	    TEXT NOT NULL,
-   phone_number  	    INT NOT NULL,
+   phone_number  	    BIGINT NOT NULL,
    address	    TEXT NOT NULL,
    email 	    TEXT NOT NULL,	
    credit_card_number   BIGINT,
