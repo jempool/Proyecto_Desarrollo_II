@@ -8,11 +8,13 @@ CREATE TABLE client(
    id	          BIGINT NOT NULL,
    password	    TEXT NOT NULL,
    phone_number  	    BIGINT NOT NULL,
+   gender       CHAR(1) NOT NULL,
    address	    TEXT NOT NULL,
    email 	    TEXT NOT NULL,	
    credit_card_number   BIGINT,
    state 	    BOOLEAN NOT NULL,	
-   CHECK (type_id IN ('CC', 'TI','RC','TP'))
+   CHECK (type_id IN ('CC', 'TI','RC','TP')),
+   CHECK (gender IN ('M','F','N'))
 );
 
 DROP TABLE IF EXISTS admin CASCADE;
@@ -65,10 +67,6 @@ DROP TABLE IF EXISTS critics CASCADE;
 CREATE TABLE critics(
    username         TEXT REFERENCES client(username),
    ISBN		    BIGINT REFERENCES book(ISBN),
-<<<<<<< HEAD:scripts_bd.sql
->>>>>>> origin/CL-03
-=======
->>>>>>> origin/CL-01:scripts_bd.txt
    comment	    TEXT NOT NULL,
    score 		INT NOT NULL
 );
@@ -109,9 +107,9 @@ INSERT INTO subcategory VALUES ('JUVENIL','DRAMA', 'CUALQUIERA PARCE');
 INSERT INTO public.client(
 	username, first_name, last_name, date_birth, type_id, id, password, phone_number, address, email, credit_card_number, state)
 	VALUES 
-	 ('dan', 'Darren', 'Haan', '2000-06-23', 'CC', 116554391, '1234', 3146884001, 'Cl 5 5N-45', 'dar.han@gmail.com' , 333, true), 
-	 ('helat', 'Helaine', 'Trussell', '2001-04-20', 'CC', 1757886571, '1234', 3006884001, 'Cra 66 5-44', 'helat@gmail.com' , 332, true), 
-	 ('jonpe', 'Jonah', 'Petti', '1998-01-20', 'CC', 2757886001, '1234', 5006667001, 'Avn 6n 8-144', 'jonah-p@gmail.com' , 331, true),
-	 ('josette', 'Josette', 'Drouin', '1990-12-22', 'CC', 7757000001, '1234', 7006667099, 'Cll 66 7-14', 'josette_D@gmail.com' , 330, true),
-	 ('clehar', 'Clement ', 'Harrelson', '1995-11-22', 'CC', 4447000001, '1234', 5009967092, 'Cra 56 7-184', 'clehar@gmail.com' , 329, true);
+	 ('dan', 'Darren', 'Haan', '2000-06-23', 'CC', 116554391, '1234', 3146884001,'M', 'Cl 5 5N-45', 'dar.han@gmail.com' , 333, true), 
+	 ('helat', 'Helaine', 'Trussell', '2001-04-20', 'CC', 1757886571, '1234', 3006884001, 'F','Cra 66 5-44', 'helat@gmail.com' , 332, true), 
+	 ('jonpe', 'Jonah', 'Petti', '1998-01-20', 'CC', 2757886001, '1234', 5006667001, 'M','Avn 6n 8-144', 'jonah-p@gmail.com' , 331, true),
+	 ('josette', 'Josette', 'Drouin', '1990-12-22', 'CC', 7757000001, '1234', 7006667099, 'F','Cll 66 7-14', 'josette_D@gmail.com' , 330, true),
+	 ('clehar', 'Clement ', 'Harrelson', '1995-11-22', 'CC', 4447000001, '1234', 5009967092, 'N','Cra 56 7-184', 'clehar@gmail.com' , 329, true);
 	
