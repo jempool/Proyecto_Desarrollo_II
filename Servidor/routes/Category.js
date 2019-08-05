@@ -5,8 +5,8 @@
  const Subcategory = require('../models/Subcategory')
 
 
-//consulta todas las categorias en la base de datos
-router.post("/consultar", (req,res) =>{
+//consulta todas las subcategorias en la base de datos
+router.get("/consultar", (req,res) =>{
 
   Subcategory.findAll()
     .then(x =>  res.json(x))
@@ -14,7 +14,42 @@ router.post("/consultar", (req,res) =>{
 })
 
 
-//consulta todas las categorias en la base de datos
+//consulta ciertos campos de las subcategorias en la base de datos
+router.post("/consultar", (req,res) =>{
+
+  Subcategory.findAll({attributes: req.body.fields})
+    .then(x =>  res.json(x))
+    .catch(err => console.log(err));
+})
+
+
+//consulta ciertos campos de las subcategorias en la base de datos
+//con un filtro where
+router.post("/consultarFiltro", (req,res) =>{
+
+  Subcategory.findAll({
+    where: {
+      name_category: req.body.name_category
+    }
+  })
+    .then(x =>  res.json(x))
+    .catch(err => console.log(err));
+})
+
+//consulta una subcategoria especifica en la base de datos
+router.post("/consultarCat", (req,res) =>{
+
+  Subcategory.findAll({
+    where: {
+      name_subcategory: req.body.name_subcategory
+    }
+  })
+    .then(x =>  res.json(x))
+    .catch(err => console.log(err));
+})
+
+
+//consulta todas las subcategorias en la base de datos
 router.post("/crear", (req,res) =>{
   
   let {name_subcategory,description,name_category} = req.body
@@ -47,6 +82,8 @@ router.post("/crear", (req,res) =>{
       .catch(err => console.log(err));
   }
 })
+
+
 
 
 

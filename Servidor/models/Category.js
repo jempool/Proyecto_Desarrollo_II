@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+const Subcategory = require('./Subcategory') ;
 
 
 const Category = db.define ('category',{
@@ -16,5 +17,7 @@ const Category = db.define ('category',{
     freezeTableName: true,
     timestamps: false
 })
+
+Category.hasMany(Subcategory,{foreingkey: 'name_category', sourcekey:'name_category'});
 
 module.exports = Category;  

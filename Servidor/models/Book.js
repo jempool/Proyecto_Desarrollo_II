@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database')
+const Subcategory  = require( './Subcategory');
 
 const Book = db.define ('book',{
     ISBN:{
@@ -57,5 +58,8 @@ const Book = db.define ('book',{
     freezeTableName: true,
     timestamps: false
 })
+
+
+Book.belongsTo(Subcategory,{foreingkey: 'name_subcategory', sourcekey:'name_subcategory'});
 
 module.exports = Book;

@@ -60,4 +60,6 @@ const Client = db.define ('client',{
     timestamps: false
 })
 
+
+
 module.exports = Client;

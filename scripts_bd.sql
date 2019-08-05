@@ -24,7 +24,7 @@ CREATE TABLE admin(
 
 DROP TABLE IF EXISTS message CASCADE;
 CREATE TABLE message(
-   username         CHAR(15) REFERENCES client(username),
+   username         TEXT REFERENCES client(username),
    description	    TEXT NOT NULL,	
    solved	    boolean NOT NULL
 );
