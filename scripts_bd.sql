@@ -65,10 +65,6 @@ DROP TABLE IF EXISTS critics CASCADE;
 CREATE TABLE critics(
    username         TEXT REFERENCES client(username),
    ISBN		    BIGINT REFERENCES book(ISBN),
-<<<<<<< HEAD:scripts_bd.sql
->>>>>>> origin/CL-03
-=======
->>>>>>> origin/CL-01:scripts_bd.txt
    comment	    TEXT NOT NULL,
    score 		INT NOT NULL
 );
