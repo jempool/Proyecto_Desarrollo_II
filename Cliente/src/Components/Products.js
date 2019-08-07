@@ -37,27 +37,13 @@ export default class Products extends React.Component {
 
   insertpro(){
 
-      fetch("/insertProduct",{
+      fetch("/Book/insert",{
         method: "POST",
         headers: {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          isbn : this.state.isbn,
-          name_subcategory: this.state.name_subcategory,
-          publication_year: this.state.publication_year,
-          synopsis: this.state.synopsis,
-          title: this.state.title,
-          author: this.state.author,
-          number_of_pages: this.state.number_of_pages,
-          price: this.state.price, 
-          editorial: this.state.editorial,
-          edition: this.state.edition,
-          lang: this.state.lang,
-          cover_type: this.state.cover_type,
-          recommended_age: this.state.recommended_age 
-        })
+        body: JSON.stringify(this.state)
       })
       .then(res => res.json())
       .then(res => {
@@ -73,7 +59,7 @@ export default class Products extends React.Component {
   }
 
   getpro(){
-    fetch("/getProduct",{
+    fetch("/Book/get",{
       method: "POST",
       headers: {
         Accept: "application/json, text/plain, */*",
@@ -88,27 +74,13 @@ export default class Products extends React.Component {
   }
 
   updatepro(){
-    fetch("/updateProduct",{
+    fetch("/Book/update",{
       method: "PUT",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        isbn : this.state.isbn,
-        name_subcategory: this.state.name_subcategory,
-        publication_year: this.state.publication_year,
-        synopsis: this.state.synopsis,
-        title: this.state.title,
-        author: this.state.author,
-        number_of_pages: this.state.number_of_pages,
-        price: this.state.price, 
-        editorial: this.state.editorial,
-        edition: this.state.edition,
-        lang: this.state.lang,
-        cover_type: this.state.cover_type,
-        recommended_age: this.state.recommended_age 
-      })
+      body: JSON.stringify(this.state)
     })
     .then(res => res.json())
     .then(res => {
@@ -123,12 +95,15 @@ export default class Products extends React.Component {
   }
 
   deletepro(){
-    fetch("/deleteProduct/"+this.state.isbn,{
+    fetch("/Book/delete",{
       method: "DELETE",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
-      }
+      },
+      body: JSON.stringify({
+        isbn : this.state.isbn,
+      })
     })
     .then(res => res.json())
     .then(res => {
@@ -241,7 +216,7 @@ export default class Products extends React.Component {
               <Input name="lang" type="text" placeholder='Lenguaje*' onChange={this.actualizarDatos} value={this.state.lang}/><br/> 
               <Input name="cover_type" type="text" placeholder='Tipo de cubierta*' onChange={this.actualizarDatos} value={this.state.cover_type}/><br/>
               <Input name="recommended_age" type="text" placeholder='Edad recomedada*' onChange={this.actualizarDatos} value={this.state.recommended_age}/> <br/>
-              <Button type="submit" onClick={this.insertpro}>Insertar producto</Button> <br/>
+              <Button  onClick={this.insertpro}>Insertar producto</Button> <br/>
             </form>
           </div>
         );
@@ -288,7 +263,7 @@ export default class Products extends React.Component {
               <Input name="lang" type="text" placeholder='Lenguaje*' onChange={this.actualizarDatos} value={this.state.lang}/><br/> 
               <Input name="cover_type" type="text" placeholder='Tipo de cubierta*' onChange={this.actualizarDatos} value={this.state.cover_type}/><br/>
               <Input name="recommended_age" type="text" placeholder='Edad recomedada*' onChange={this.actualizarDatos} value={this.state.recommended_age}/> <br/>
-              <Button type="submit" onClick={this.updatepro}>Actualizar producto</Button> <br/>
+              <Button  onClick={this.updatepro}>Actualizar producto</Button> <br/>
             </form>          
           </div>
         );
@@ -298,7 +273,7 @@ export default class Products extends React.Component {
             <hr/>
             <p>Inserte el isbn del producto que desea eliminar</p>
             <Input name="isbn" type="text" placeholder='ISBN*' onChange={this.actualizarDatos} value={this.state.isbn}/> <br/>
-            <Button type="submit" onClick={this.deletepro}>Eliminar producto</Button>
+            <Button  onClick={this.deletepro}>Eliminar producto</Button>
           </div>
         );
       default:

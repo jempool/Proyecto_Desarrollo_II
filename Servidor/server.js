@@ -40,52 +40,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bo
 
 app.use('/Category', require('./routes/Category'));
 app.use('/Subcategory', require('./routes/Subcategory'));
+app.use('/Book',require('./routes/Book'));
 
-
-/////////////////////////////////////////////////////
-///////////CONSULTAS DE LOS PRODUCTOS////////////////
-/////////////////////////////////////////////////////
-
-//Insertar productos en la base de datos
-app.post("/insertProduct", function(req,res){
-
-  Book.create(req.body).then(x => res.json(x))
-  .catch(err => console.log(err));
-
-})
-
-//Consultar productos de la base de datos
-app.post('/getProduct', function(req,res){
-
-  Book.findAll({where: {
-    isbn: req.body.isbn
-  }})
-  .then(x =>  res.json(x))
-  .catch(err => console.log(err));
-
-})
-
-//Modificar los datos de un producto especifico de la base de datos
-app.put("/updateProduct", function(req,res){
-
-let index = req.body.isbn;
-delete req.body.isbn
-
-Book.update(req.body,{where: {
-  isbn: index
-}}).then(x => res.json(x))
-.catch(err => console.log(err));
-})
-
-//Eliminar un producto especifico de la base de datos
-app.delete('/deleteProduct/:isbn', function(req,res){
-
-  Book.destroy({where: {
-    isbn: req.params.isbn
-  }}).then(x => res.json(x))
-  .catch(err => console.log(err));
-
-})
 
 /////////////////////////////////////////////////////
 ///////////CONSULTAS DE LOS CLIENTES/////////////////
