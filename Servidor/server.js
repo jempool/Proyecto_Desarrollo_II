@@ -41,6 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // to support URL-encoded bo
 app.use('/Category', require('./routes/Category'));
 app.use('/Subcategory', require('./routes/Subcategory'));
 app.use('/Book',require('./routes/Book'));
+app.use('/Client',require('./routes/Client'));
 
 
 /////////////////////////////////////////////////////

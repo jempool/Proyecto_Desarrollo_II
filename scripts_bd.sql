@@ -105,7 +105,7 @@ INSERT INTO subcategory VALUES ('JUVENIL','DRAMA', 'CUALQUIERA PARCE');
 
 
 INSERT INTO public.client(
-	username, first_name, last_name, date_birth, type_id, id, password, phone_number, address, email, credit_card_number, state)
+	username, first_name, last_name, date_birth, type_id, id, password, phone_number,gender, address, email, credit_card_number, state)
 	VALUES 
 	 ('dan', 'Darren', 'Haan', '2000-06-23', 'CC', 116554391, '1234', 3146884001,'M', 'Cl 5 5N-45', 'dar.han@gmail.com' , 333, true), 
 	 ('helat', 'Helaine', 'Trussell', '2001-04-20', 'CC', 1757886571, '1234', 3006884001, 'F','Cra 66 5-44', 'helat@gmail.com' , 332, true), 

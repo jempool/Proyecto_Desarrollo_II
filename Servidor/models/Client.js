@@ -51,7 +51,7 @@ const Client = db.define ('client',{
         allowNull: false             
     },
     state:{
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.TEXT,
         allowNull: false             
     },
 

@@ -12,12 +12,12 @@ class Admin_page extends Component {
           {
             username: "---", first_name: "---", last_name: "---", date_birth: "---",
             type_id: "---", id: "---", phone_number: "---", address: "---",
-            email: "---", state: "---"
+            email: "---", state: "true"
           },
           {
             username: "", first_name: "", last_name: "", date_birth: "",
             type_id: "", id: "", phone_number: "", address: "",
-            email: "", state: ""
+            email: "", state: "true"
           }]
       },
       textBox: ""
@@ -46,17 +46,13 @@ class Admin_page extends Component {
     }
 
     if (e.target.id === "cliente") {
-      fetch("/customers", {
-        method: "POST",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ action: e.target.id, client: "" })
+      fetch("/Client/consult", {
+        method: "GET",
       })
 
         .then(res => res.json())
         .then(res => {
+          console.log(res)
 
           this.setState({ algo: "" });
           this.setState({ algo: res[0] });
