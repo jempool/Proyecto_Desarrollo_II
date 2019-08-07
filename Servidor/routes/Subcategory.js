@@ -8,8 +8,11 @@ router.get("/consult", (req,res) =>{
 
   Subcategory.findAll()
     .then(x =>  res.json(x))
-    .catch(err => console.log(err));
-})
+    .catch(err => {
+      console.log(err)
+      res.json({bool:false})
+    });
+});
 
 
 //consulta todas las subcategorias en la base de datos
@@ -25,9 +28,11 @@ router.post("/create", (req,res) =>{
     name_category
   })
     .then(x =>res.json({bool:true}))
-    .catch(err => res.json({bool:false}));
-  
-})
+    .catch(err => {
+      console.log(err)
+      res.json({bool:false})
+    });  
+});
 
 
 //actualiza una instancia de una subcategoria en la base de datos
@@ -52,7 +57,10 @@ router.delete("/delete",(req,res) =>{
     }
   })
   .then(x =>  res.json({bool:true}))
-  .catch(res.json({bool:false}));
+  .catch(err => {
+    console.log(err)
+    res.json({bool:false})
+  });
 })
 
 

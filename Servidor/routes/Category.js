@@ -4,7 +4,7 @@ const db  =require('../config/database')
 const Category = require('../models/Category')
 
 
-//consulta todas las subcategorias en la base de datos
+//consulta todas las categorias en la base de datos
 router.get("/consult", (req,res) =>{
 
  Category.findAll()
@@ -14,7 +14,7 @@ router.get("/consult", (req,res) =>{
 
 
 
-//consulta todas las subcategorias en la base de datos
+//consulta todas las categorias en la base de datos
 router.post("/create", (req,res) =>{
   
   let {name_category,description} = req.body
@@ -26,8 +26,39 @@ router.post("/create", (req,res) =>{
     name_category
   })
     .then(x =>res.json({bool:true}))
-    .catch(err => res.json({bool:false}));
+    .catch(err => {
+      console.log(err)
+      res.json({bool:false})
+    });
   
+})
+
+
+//actualiza una instancia de una categoria en la base de datos
+router.post("/update",(req,res)=>{
+  let updateValues = {
+    description: req.body.description,
+  };
+  Category.update(updateValues, { where: { name_category: req.body.name } })
+  .then((result) => {
+
+    if(result[0]===1)res.json({bool:true})
+    else  res.json({bool:false})
+  })
+});
+
+//Elimina una instancia de una categoria en la base de datos
+router.delete("/delete",(req,res) =>{
+  Category.destroy({
+    where:{
+      name_category:req.body.category
+    }
+  })
+  .then(x =>  res.json({bool:true}))
+  .catch(err => {
+    console.log(err)
+    res.json({bool:false})
+  });
 })
 
 

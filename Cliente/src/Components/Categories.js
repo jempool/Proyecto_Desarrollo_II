@@ -26,14 +26,14 @@ export default class Categories extends React.Component {
 
   actualizar(){
 
-    fetch("//Category/update", {
+    fetch("/Category/update", {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-      name_category:this.state.name,
+      name:this.state.name,
       description:this.state.description})
     })
     .then(res => res.json())
