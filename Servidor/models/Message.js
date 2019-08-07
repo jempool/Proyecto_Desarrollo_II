@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-const Client =require('./Client')
+//const Client =require('./Client')
 
 const Message = db.define ('message',{
     username:{

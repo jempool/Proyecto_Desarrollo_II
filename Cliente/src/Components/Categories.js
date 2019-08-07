@@ -26,14 +26,14 @@ export default class Categories extends React.Component {
 
   actualizar(){
 
-    fetch("/actualizarSubCategorias", {
+    fetch("//Category/update", {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ type: "category", 
-      name:this.state.name,
+      body: JSON.stringify({
+      name_category:this.state.name,
       description:this.state.description})
     })
     .then(res => res.json())
@@ -54,14 +54,8 @@ export default class Categories extends React.Component {
 
 
   getNames(){
-    fetch("/consultarSubCategorias", {
-      method: "POST",
-
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ table: "category"})
+    fetch("/Category/consult", {
+      method: "GET",
     })
     .then(res => res.json())
     .then(res => this.setState({categoryNames:res}))
@@ -69,13 +63,13 @@ export default class Categories extends React.Component {
 
   eliminar(){
 
-    fetch("/eliminarSubCategorias", {
+    fetch("/Category/delete", {
       method: "DELETE",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ type: "category", category:this.state.name})
+      body: JSON.stringify({ category:this.state.name})
     })
     .then(res => res.json())
     .then(res =>{
@@ -94,14 +88,13 @@ export default class Categories extends React.Component {
 
   crear(){
 
-    fetch("/crearSubCategorias", {
+    fetch("/Category/create", {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ type: "category",
-                             name:this.state.name,
+      body: JSON.stringify({ name_category:this.state.name,
                              description:this.state.description})
     })
     .then(res => res.json())

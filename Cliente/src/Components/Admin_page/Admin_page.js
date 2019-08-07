@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { JsonToTable } from "react-json-to-table";
-import { Table } from "@material-ui/core";
 import "./Admin_page.css"
 
 
@@ -76,7 +75,7 @@ class Admin_page extends Component {
 
   render() {
 
-
+/*
     const tab = (
       <tbody>
         <tr>
@@ -84,7 +83,7 @@ class Admin_page extends Component {
           <td>2</td>
           <button>b</button>
         </tr>
-      </tbody>);
+    </tbody>);*/
 
     return (
       // <div>

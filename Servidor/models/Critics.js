@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+/**
 const Client  = require( './Client')
 const Book  = require( './Book')
-
+ */
 const Critics = db.define ('critics',{
     username:{
         type: Sequelize.TEXT,
@@ -25,6 +26,7 @@ const Critics = db.define ('critics',{
     freezeTableName: true,
     timestamps: false
 })
+
 Critics.belongsTo(Client,{foreingkey: 'username', sourcekey:'username'});
 Critics.belongsTo(Book,{foreingkey: 'ISBN', sourcekey:'ISBN'});
 

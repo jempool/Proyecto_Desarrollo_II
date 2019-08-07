@@ -30,13 +30,13 @@ export default class Subcategories extends React.Component {
 
   actualizar(){
 
-    fetch("/actualizarSubCategorias", {
+    fetch("/Subcategory/update", {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ type: "subcategory", 
+      body: JSON.stringify({
       name:this.state.name,
       description:this.state.description,
       categoryName:this.state.catName})
@@ -59,28 +59,16 @@ export default class Subcategories extends React.Component {
 
 
   getNames(){
-    fetch("/consultarSubCategorias", {
-      method: "POST",
-
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ table: "subcategory"})
+    fetch("/Subcategory/consult", {
+      method: "GET",
     })
     .then(res => res.json())
     .then(res => this.setState({subcategoryNames:res}))
   }
 
   getNamesCat(){
-    fetch("/consultarSubCategorias", {
-      method: "POST",
-
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ table: "category"})
+    fetch("/Category/consult", {
+      method: "GET",
     })
     .then(res => res.json())
     .then(res => this.setState({categoryNames:res}))
@@ -88,13 +76,13 @@ export default class Subcategories extends React.Component {
 
   eliminar(){
 
-    fetch("/eliminarSubCategorias", {
+    fetch("/Subcategory/delete", {
       method: "DELETE",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ type: "subcategory", category:this.state.name})
+      body: JSON.stringify({subcategory:this.state.name})
     })
     .then(res => res.json())
     .then(res =>{
@@ -113,16 +101,15 @@ export default class Subcategories extends React.Component {
 
   crear(){
 
-    fetch("/crearSubCategorias", {
+    fetch("/Subcategory/create", {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ type: "subcategory",
-                             name:this.state.name,
+      body: JSON.stringify({ name_subcategory:this.state.name,
                              description:this.state.description,
-                             categoryName:this.state.catName})
+                             name_category:this.state.catName})
     })
     .then(res => res.json())
     .then(res =>{

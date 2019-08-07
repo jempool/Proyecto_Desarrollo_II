@@ -201,7 +201,7 @@ actualizarDatos(e){
 
           </div>
         );
-        break;
+    
 
       case "consult":
 
@@ -240,8 +240,6 @@ actualizarDatos(e){
             </div>
           );
 
-        break;
-
       case "delete":
 
           return(
@@ -254,8 +252,9 @@ actualizarDatos(e){
   
             </div>
           );
+          default :
+          break;
 
-        break;
     }
   }
 

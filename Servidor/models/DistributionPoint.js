@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-const Inventory = require('./Inventory')
+//const Inventory = require('./Inventory')
 
 const DistributionPoint = db.define ('distribution_point',{
     id_dp:{
@@ -25,6 +25,6 @@ const DistributionPoint = db.define ('distribution_point',{
     timestamps: false
 })
 
-DistributionPoint.hasMany(Inventory,{foreingkey: 'id_dp', sourcekey:'id_dp'});
+//DistributionPoint.hasMany(Inventory,{foreingkey: 'id_dp', sourcekey:'id_dp'});
 
 module.exports = DistributionPoint;

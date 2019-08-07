@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database')
-const Subcategory  = require( './Subcategory');
+//const Subcategory  = require( './Subcategory');
 
 const Book = db.define ('book',{
     ISBN:{

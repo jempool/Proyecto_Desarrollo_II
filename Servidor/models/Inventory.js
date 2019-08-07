@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+/**
 const DistributionPoint = require( './DistributionPoint');
 const Book = require('./Book')
-
+ */
 const Inventory = db.define ('inventario',{
     id_dp:{
         type: Sequelize.INTEGER,
@@ -21,6 +22,7 @@ const Inventory = db.define ('inventario',{
     freezeTableName: true,
     timestamps: false
 })
+
 Inventory.belongsTo(DistributionPoint,{foreingkey: 'id_dp', sourcekey:'id_dp'});
 Inventory.hasMany(Book,{foreingkey: 'ISBN', sourcekey:'ISBN'});
 
