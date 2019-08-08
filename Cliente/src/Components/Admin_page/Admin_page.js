@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Select} from '@material-ui/core';
 import { JsonToTable } from "react-json-to-table";
 import "./Admin_page.css"
 
@@ -8,58 +9,48 @@ class Admin_page extends Component {
     super(props);
     this.state = {
       algo: {
-        Clientes: [
-          {
-            username: "---", first_name: "---", last_name: "---", date_birth: "---",
-            type_id: "---", id: "---", phone_number: "---", address: "---",
-            email: "---", state: "true"
-          },
-          {
-            username: "", first_name: "", last_name: "", date_birth: "",
-            type_id: "", id: "", phone_number: "", address: "",
-            email: "", state: "true"
-          }]
+        Client: []
       },
-      textBox: ""
+      status:"Select"
     };
     this.handleClick = this.handleClick.bind(this);
+    this.getClient = this.getClient.bind(this);
+    this.getClient()
+  }
+
+
+  getClient(){
+    fetch("/Client/consult", {
+      method: "GET",
+    })
+
+      .then(res => res.json())
+      .then(res => {        
+        this.setState({ algo: {Client:[]} });
+        this.setState({ algo: res[0] });
+      });
+
   }
  
 
   handleClick(e) {
 
-    if (e.target.id === "desactivar") {
-      console.log(this.state.textBox);
-      fetch("/customers", {
-        method: "POST",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ action: e.target.id, client: this.state.textBox })
-      })
-      .then(res => res.json())
-      .then(res => {
-        this.setState({ algo: "" });
-        this.setState({ algo: res[0] });
-      }); 
-    }
-
-    if (e.target.id === "cliente") {
-      fetch("/Client/consult", {
-        method: "GET",
-      })
-
-        .then(res => res.json())
-        .then(res => {
-          console.log(res)
-
-          this.setState({ algo: "" });
-          this.setState({ algo: res[0] });
-
-          //console.log(this.state.algo.client[0].state);
-        });
-    } 
+    fetch("/Client/desactivate", {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({client: this.state.status })
+    })
+    .then(res => res.json())
+    .then(res => {
+      console.log(res)
+      this.setState({ algo: {Client:[]} });
+    })
+    .then(()=>{
+      this.getClient()
+    }); 
   }
   
   updateInputValue = (evt) => {
@@ -70,6 +61,7 @@ class Admin_page extends Component {
 
 
   render() {
+    console.log(this.state.algo)
 
 /*
     const tab = (
@@ -93,11 +85,23 @@ class Admin_page extends Component {
       //   </div>);
 
       <div>
-        <button id="cliente" onClick={this.handleClick}>Clients</button>
         <JsonToTable json={this.state.algo} />
         <br />
         <button id="desactivar" onClick={this.handleClick }>activate/deactivate</button>
-        <input type="text" onChange={this.updateInputValue} />
+        <Select 
+                    name="categoryName"
+                    value={this.state.status}
+                    onChange={(x)=>this.setState({status:x.target.value})}
+                    placeholder="Selecciona una subcategoria:"
+                  >
+                    <option value="Select" > 
+                      Selecciona una categoria:
+                    </option>
+                    {this.state.algo.Client.map(x =>
+                              <option value={x.username} key={x.username}>
+                                    {x.username}
+                              </option>)}
+          </Select>
 
 
         {/* <Table id="table" border="1">

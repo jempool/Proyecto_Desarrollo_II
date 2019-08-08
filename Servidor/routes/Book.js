@@ -16,7 +16,7 @@ router.post("/insert", function(req,res){
     Book.create(req.body)
     .then(x => res.json([{bool:true}]))
     .catch(err => {
-        cosnole.log(err)
+        console.log(err)
         res.json([{bool:false}])
     });
   
@@ -46,7 +46,7 @@ router.put("/update", function(req,res){
     }})
     .then(x => res.json([{bool:true}]))
     .catch(err => {
-        cosnole.log(err)
+        console.log(err)
         res.json([{bool:false}])
     });
 })
@@ -58,7 +58,7 @@ router.delete('/delete', function(req,res){
         isbn: req.body.isbn
     }}).then(x => res.json([{bool:true}]))
     .catch(err => {
-        cosnole.log(err)
+        console.log(err)
         res.json([{bool:false}])
     });
 

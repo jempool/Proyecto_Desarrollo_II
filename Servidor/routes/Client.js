@@ -37,6 +37,36 @@ router.get("/consult", (req,res) =>{
 
 
 //Modificar los datos de un producto especifico de la base de datos
+router.post("/desactivate", function(req,res){
+
+    let index = req.body.client;
+    
+    Client.findAll({where: {
+        username: index
+    }})
+    .then(x =>{
+        Client.update({
+            state:!x[0].state
+        },{where: {
+            username: x[0].username
+        }})
+        .then(x => res.json([{ client: [] }]))
+        .catch(err => {
+            console.log(err)
+            res.json([{ client: [] }])
+        });
+
+    })
+    .catch(err => {
+        console.log(err)
+        res.json([{ client: [] }])
+    })
+
+
+})
+
+
+//Modificar los datos de un producto especifico de la base de datos
 router.put("/update", function(req,res){
     delete req.body.tipo
 
@@ -44,7 +74,7 @@ router.put("/update", function(req,res){
     delete req.body.isbn
 
     Client.update(req.body,{where: {
-        isbn: index
+        username: index
     }})
     .then(x => res.json([{bool:true}]))
     .catch(err => {
