@@ -16,6 +16,7 @@ export default class Sign_up extends React.Component {
       date_birth:'',
       type_id:'CC',
       id:'',
+      gender:'F',
       password:'',
       phone_number:'',
       address:'',
@@ -30,7 +31,7 @@ export default class Sign_up extends React.Component {
 
   cliente(){
 
-    fetch("/insertClient",{
+    fetch("/Client/insert",{ 
       method:"POST",
       headers:{
         Accept: "application/json, text/plain, */*",
@@ -89,6 +90,13 @@ export default class Sign_up extends React.Component {
         <option value="TI">Tarjeta de identidad</option>         
         <option value="RC">Registro Civil</option>         
         <option value="TP">Pasaporte</option>         
+      </Select><br/>
+
+      <label for="type_id">Genero:</label>
+      <Select onSelect={(x)=>this.setState({gender:x.target.value})} value="F">
+        <option value="F">Femenino</option>
+        <option value="M">Masculino</option>         
+        <option value="N">No definido</option>         
       </Select><br/>
 
       <label for="id">ID:</label>

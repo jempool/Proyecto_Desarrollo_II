@@ -35,6 +35,18 @@ router.get("/consult", (req,res) =>{
     });
   });
 
+//consulta todas las subcategorias en la base de datos
+router.post("/get", (req,res) =>{
+    
+
+    Client.findAll({where: req.body})
+    .then(x => res.json(x))
+    .catch(err => {
+        console.log(err)
+        res.json({bool:false})
+    });
+});
+
 
 //Modificar los datos de un producto especifico de la base de datos
 router.post("/desactivate", function(req,res){
@@ -66,34 +78,38 @@ router.post("/desactivate", function(req,res){
 })
 
 
-//Modificar los datos de un producto especifico de la base de datos
-router.put("/update", function(req,res){
-    delete req.body.tipo
+//Eliminar un producto especifico de la base de datos
+router.delete('/delete', function(req,res){
+    console.log(req.body)
 
-    let index = req.body.isbn;
-    delete req.body.isbn
+    Client.destroy({where: req.body})
+    .then(x => res.json([{bool:true}]))
+    .catch(err => {
+        console.log(err)
+        res.json([{bool:false}])
+    });
 
+})
+
+
+//Modificar cliente
+
+router.post("/update", function(req,res){
+  
+    let index = req.body.username;
+    delete req.body.username
+    
     Client.update(req.body,{where: {
-        username: index
+      username: index
     }})
     .then(x => res.json([{bool:true}]))
     .catch(err => {
-        cosnole.log(err)
+        console.log(err)
         res.json([{bool:false}])
     });
-})
+  
+  })
 
-//Eliminar un producto especifico de la base de datos
-router.delete('/delete', function(req,res){
 
-    Client.destroy({where: {
-        isbn: req.body.isbn
-    }}).then(x => res.json([{bool:true}]))
-    .catch(err => {
-        cosnole.log(err)
-        res.json([{bool:false}])
-    });
-
-})
 
 module.exports =router;

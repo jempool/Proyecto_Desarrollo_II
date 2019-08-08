@@ -33,15 +33,17 @@ export default class User_page extends React.Component {
 
 
   modCliente(){
-    fetch("/updateClient",{
-      method:"PUT",
+    fetch("/Client/update",{
+      method:"POST",
       headers:{
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
       body:JSON.stringify(this.state)
     })
+    .then(res => res.json())
     .then(res => {
+      console.log(res)
       if(res[0].bool){
         console.log("Creo que funciona");
       }
@@ -54,7 +56,9 @@ export default class User_page extends React.Component {
 
 
   consultClient(){
-    fetch("/getClient",{
+
+    
+    fetch("/Client/get",{
       method:"POST",
       headers:{
         Accept: "application/json, text/plain, */*",
@@ -65,11 +69,14 @@ export default class User_page extends React.Component {
       })
     })
     .then(res => res.json())
-    .then(res => this.setState(res[0]))
+    .then(res => {
+      console.log(res[0])
+      this.setState(res[0])
+    })
   }
 
   deleteClient(){
-    fetch("/deleteClient",{
+    fetch("/Client/delete",{
       method:"DELETE",
       headers:{
         Accept: "application/json, text/plain, */*",
@@ -91,19 +98,12 @@ export default class User_page extends React.Component {
     )
   }
 
-  handleClick(e){
-    console.log(e.target.value);
-    this.setState({tipo: e.target.value});
-}
+ 
 
 actualizarDatos(e){
+  
 
-  switch (e.target.name){
-    case 'username':
-      this.setState({
-        username:e.target.value
-      });
-      break;
+  switch (e.target.id){
     case 'first_name':
       this.setState({
         first_name:e.target.value
@@ -197,7 +197,7 @@ actualizarDatos(e){
             <label for="password">Password:</label>
             <Input id='password' type="text"  placeholder='password*' onChange={this.actualizarDatos} value={this.state.password}></Input><br/>
 
-            <Button id='modify' onClick={this.modcliente} >Edit</Button>
+            <Button id='modify' onClick={this.modCliente} >Edit</Button>
 
           </div>
         );
@@ -209,7 +209,7 @@ actualizarDatos(e){
             <div>
               <h1>Put the username of your account</h1>
               <label for="username">Username:</label>
-              <Input id='username' type="text" placeholder='username*' onChange={this.actualizarDatos} value={this.state.username}></Input><br/>
+              <Input id='username' type="text" placeholder='username*' onChange={e=>this.setState({username:e.target.value})} value={this.state.username}></Input><br/>
 
               <Button id='consult' onClick={this.consultClient} >Consult</Button><br/>
 
@@ -246,7 +246,7 @@ actualizarDatos(e){
             <div>
               <h1>Put the username of your account</h1>
               <label for="username">Username:</label>
-              <Input id='username' type="text" placeholder='username*' onChange={this.actualizarDatos} value={this.state.username}></Input><br/>
+              <Input id='username' type="text" placeholder='username*' onChange={e=>this.setState({username:e.target.value})} value={this.state.username}></Input><br/>
 
               <Button id='delete' onClick={this.deleteClient} >Delete</Button>
   
@@ -259,6 +259,8 @@ actualizarDatos(e){
   }
 
     render(){
+
+      console.log(this.state)
       return( 
       
       <div className='botons'>
