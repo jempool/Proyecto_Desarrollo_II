@@ -195,7 +195,7 @@ actualizarDatos(e){
             <Input id='credit_card_number' type="text"  placeholder='credit_card_number*' onChange={this.actualizarDatos} value={this.state.credit_card_number}></Input><br/>
 
             <label for="password">Password:</label>
-            <Input id='password' type="text"  placeholder='password*' onChange={this.actualizarDatos} value={this.state.password}></Input><br/>
+            <Input id='password' type="password"  placeholder='password*' onChange={this.actualizarDatos} value={this.state.password}></Input><br/>
 
             <Button id='modify' onClick={this.modCliente} >Edit</Button>
 
@@ -235,7 +235,7 @@ actualizarDatos(e){
             <Input id='credit_card_number' type="text" disabled placeholder='credit_card_number*' onChange={this.actualizarDatos} value={this.state.credit_card_number}></Input><br/>
 
             <label for="password">Password:</label>
-            <Input id='password' type="text" disabled placeholder='password*' onChange={this.actualizarDatos} value={this.state.password}></Input><br/>
+            <Input id='password' type="password" disabled placeholder='password*' onChange={this.actualizarDatos} value={this.state.password}></Input><br/>
             
             </div>
           );
